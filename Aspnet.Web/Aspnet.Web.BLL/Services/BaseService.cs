@@ -15,7 +15,6 @@ namespace Aspnet.Web.BLL.Services
         public BaseService()
         {
             _connection = ConnectionManager.GetConnection();
-
         }
     }
 }

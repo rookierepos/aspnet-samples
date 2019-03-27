@@ -21,14 +21,24 @@ namespace Aspnet.Web.BLL.Services
             _userRepository = new UserRepository(_connection);
         }
 
-        public bool AddUser(User user)
+        public int AddUser(User user)
         {
             return _userRepository.AddUser(user, null);
         }
 
-        public Task<bool> AddUserAsync(User user)
+        public Task<int> AddUserAsync(User user)
         {
             return _userRepository.AddUserAsync(user, null);
+        }
+
+        public bool CheckUserName(string name)
+        {
+            return _userRepository.CheckUserName(name);
+        }
+
+        public Task<bool> CheckUserNameAsync(string name)
+        {
+            return _userRepository.CheckUserNameAsync(name);
         }
 
         public(bool result, string message) ChangePassword(int id, string oldPassword, string newPassword)

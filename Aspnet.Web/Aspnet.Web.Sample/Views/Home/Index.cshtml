@@ -1,4 +1,4 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
 @{
     ViewBag.Title = "首页";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,3 +6,10 @@
 
 <h2>首页</h2>
 
+<h5>@User.Identity.Name</h5>
+
+<h5>@User.Identity.GetUserId()</h5>
+
+<h5>@User.Identity.AuthenticationType</h5>
+
+<h5>@(Request.IsAuthenticated ? "已登录" : "未登录")</h5>
