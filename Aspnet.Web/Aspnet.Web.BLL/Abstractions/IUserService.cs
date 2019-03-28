@@ -21,5 +21,7 @@ namespace Aspnet.Web.BLL.Abstractions
         Task < (bool result, string message) > ChangePasswordAsync(int id, string oldPassword, string newPassword);
         bool UpdateLastLoginTime(int id);
         Task<bool> UpdateLastLoginTimeAsync(int id);
+        IEnumerable<User> GetUserList(int pageSize, int pageIndex);
+        Task<IEnumerable<User>> GetUserListAsync(int pageSize, int pageIndex);
     }
 }

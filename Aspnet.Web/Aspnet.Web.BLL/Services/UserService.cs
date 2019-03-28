@@ -80,5 +80,15 @@ namespace Aspnet.Web.BLL.Services
         {
             return _userRepository.UpdateLastLoginTimeAsync(id, null);
         }
+
+        public IEnumerable<User> GetUserList(int pageSize, int pageIndex)
+        {
+            return _userRepository.GetUserList(pageSize, pageIndex);
+        }
+
+        public Task<IEnumerable<User>> GetUserListAsync(int pageSize, int pageIndex)
+        {
+            return _userRepository.GetUserListAsync(pageSize, pageIndex);
+        }
     }
 }

@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Aspnet.Web.Model.User>
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+        <td>Nick</td>
+        <td>Admin</td>
+        <td>CreateTime</td>
+        <td>LastLoginTime</td>
+        <td>LockedDate</td>
+        <td>Status</td>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Name</td>
+            <td>@item.Nick</td>
+            <td>@item.Admin.ToString()</td>
+            <td>@item.CreateTime.ToShortDateString()</td>
+            <td>@item.LastLoginTime.ToShortDateString()</td>
+            <td>@(item.LockedDate?.ToShortDateString())</td>
+            <td>@item.Status.ToString("G")</td>
+        </tr>
+    }
+    </tbody>
+</table>

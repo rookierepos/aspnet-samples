@@ -167,6 +167,7 @@
     <Content Include="secert.config" />
     <Content Include="Scripts\jquery-1.12.4.min.map" />
     <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

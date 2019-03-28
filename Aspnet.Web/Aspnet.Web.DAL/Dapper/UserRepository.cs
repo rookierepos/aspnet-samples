@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using Aspnet.Web.Common;
@@ -133,6 +134,20 @@ namespace Aspnet.Web.DAL.Dapper
         {
             return await _connection.QueryFirstOrDefaultAsync<int>($"SELECT Id FROM {_userTableName} WHERE Name=@Name LIMIT 1;",
                        new { Name = name }) > 0;
+        }
+
+        public IEnumerable<User> GetUserList(int pageSize, int pageIndex)
+        {
+            return _connection.Query<User>($@"
+                SELECT Id, Name, Nick, Admin, CreateTime, LastLoginTime, LockedDate, Status 
+                FROM {_userTableName} WHERE 1=1 LIMIT {(pageSize * (pageIndex - 1))}, {pageSize}");
+        }
+
+        public Task<IEnumerable<User>> GetUserListAsync(int pageSize, int pageIndex)
+        {
+            return _connection.QueryAsync<User>($@"
+                SELECT Id, Name, Nick, Admin, CreateTime, LastLoginTime, LockedDate, Status 
+                FROM {_userTableName} WHERE 1=1 LIMIT {(pageSize * (pageIndex - 1))}, {pageSize}");
         }
     }
 }

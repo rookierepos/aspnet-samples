@@ -19,8 +19,7 @@ namespace Aspnet.Web.Sample
         public static void AutofacInit()
         {
             var builder = new ContainerBuilder();
-            builder.Register(r => ConnectionManager.GetConnection()).As<IDbConnection>();
-
+            builder.Register(r => ConnectionManager.GetConnection()).As<IDbConnection>();//.InstancePerRequest();
             builder.RegisterType<UserService>().As<IUserService>();
 
             builder.RegisterControllers(Assembly.GetAssembly(typeof(AotofacConfig))).PropertiesAutowired();

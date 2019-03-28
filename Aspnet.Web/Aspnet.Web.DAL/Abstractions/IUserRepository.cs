@@ -1,4 +1,6 @@
-﻿using System.Data;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 using Aspnet.Web.Model;
 
@@ -18,5 +20,7 @@ namespace Aspnet.Web.DAL.Abstractions
         Task < (bool result, string message) > ChangePasswordAsync(int id, string oldPassword, string newPassword, IDbTransaction transaction);
         bool UpdateLastLoginTime(int id, IDbTransaction transaction);
         Task<bool> UpdateLastLoginTimeAsync(int id, IDbTransaction transaction);
+        IEnumerable<User> GetUserList(int pageSize, int pageIndex);
+        Task<IEnumerable<User>> GetUserListAsync(int pageSize, int pageIndex);
     }
 }
