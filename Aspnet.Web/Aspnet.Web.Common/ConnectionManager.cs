@@ -22,8 +22,14 @@ namespace Aspnet.Web.Common
             var connection = HttpContext.Current.Cache[connectionKey] as IDbConnection;
             if (connection == null)
             {
-                connection = new MySqlConnection(_connectionString ?? throw new InvalidOperationException(nameof(_connectionString)));
-                HttpContext.Current.Cache.Insert(connectionKey, connection);
+                lock (HttpContext.Current.Session.SessionID)
+                {
+                    if (connection == null)
+                    {
+                        connection = new MySqlConnection(_connectionString ?? throw new InvalidOperationException(nameof(_connectionString)));
+                        HttpContext.Current.Cache.Insert(connectionKey, connection);
+                    }
+                }
             }
 
             return connection;
@@ -31,14 +37,17 @@ namespace Aspnet.Web.Common
 
         public static void ConnectionDispose()
         {
-            var connection = HttpContext.Current.Cache[connectionKey] as IDbConnection;
-            if (connection != null)
+            if (HttpContext.Current.Cache[connectionKey] is IDbConnection connection)
             {
-                if (connection.State != ConnectionState.Closed)
+                lock (HttpContext.Current.Session.SessionID)
                 {
-                    connection.Close();
+                    if (connection.State != ConnectionState.Closed)
+                    {
+                        connection.Close();
+                    }
+                    connection.Dispose();
+                    HttpContext.Current.Cache.Remove(connectionKey);
                 }
-                connection.Dispose();
             }
         }
     }
