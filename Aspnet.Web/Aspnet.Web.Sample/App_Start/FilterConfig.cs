@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Aspnet.Web.Common;
+using System;
 using System.Security.Claims;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -12,8 +12,11 @@ namespace Aspnet.Web.Sample
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
+            //AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
+            AntiForgeryConfig.SuppressIdentityHeuristicChecks = true;
             filters.Add(new IdentityFilter());
+
+            filters.Add(new HandleErrorAttribute());
         }
     }
 
@@ -25,7 +28,6 @@ namespace Aspnet.Web.Sample
             if (cookie != null)
             {
                 var ticket = FormsAuthentication.Decrypt(cookie.Value);
-
                 FormsIdentity formsIdentity = new FormsIdentity(ticket);
                 ClaimsIdentity claimsIdentity = new ClaimsIdentity(formsIdentity);
 
@@ -34,6 +36,11 @@ namespace Aspnet.Web.Sample
                 ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                 filterContext.HttpContext.User = claimsPrincipal;
             }
+        }
+
+        public override void OnResultExecuted(ResultExecutedContext filterContext)
+        {
+            ConnectionManager.ConnectionDispose();
         }
     }
 }

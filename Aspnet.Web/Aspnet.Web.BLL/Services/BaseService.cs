@@ -12,9 +12,9 @@ namespace Aspnet.Web.BLL.Services
     {
         protected IDbConnection _connection;
 
-        public BaseService()
+        public BaseService(IDbConnection connection)
         {
-            _connection = ConnectionManager.GetConnection();
+            _connection = connection; //ConnectionManager.GetConnection();
         }
     }
 }

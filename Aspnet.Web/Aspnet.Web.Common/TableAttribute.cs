@@ -21,7 +21,12 @@ namespace Aspnet.Web.Common
 
     public static class TableExtensions
     {
-        private static readonly ConcurrentDictionary<string, string> _tableNameDictionary = new ConcurrentDictionary<string, string>();
+        private static readonly ConcurrentDictionary<string, string> _tableNameDictionary;
+
+        static TableExtensions()
+        {
+            _tableNameDictionary = new ConcurrentDictionary<string, string>();
+        }
 
         public static string GetTableName(this Type type)
         {

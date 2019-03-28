@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using System.Web.Security;
 using Aspnet.Web.Sample.Models;
@@ -16,20 +17,26 @@ namespace Aspnet.Web.Sample.Controllers
 {
     public class AccountController : Controller
     {
+        private IUserService _userService;
+
+        public AccountController(IUserService userService)
+        {
+            _userService = userService;
+        }
+
         [HttpGet]
         public ActionResult Login()
         {
-            User.Identity.GetUserId<int>();
             return View();
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model)
         {
             if (ModelState.IsValid)
             {
-                IUserService userService = new UserService();
-                var user = userService.GetUser(model.UserName);
+                var user = _userService.GetUser(model.UserName);
                 if (user == null)
                 {
                     ModelState.AddModelError(nameof(model.UserName), "用户名错误！");
@@ -41,7 +48,7 @@ namespace Aspnet.Web.Sample.Controllers
                 else
                 {
                     ToLogin(user);
-                    userService.UpdateLastLoginTime(user.Id);
+                    _userService.UpdateLastLoginTime(user.Id);
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -50,10 +57,9 @@ namespace Aspnet.Web.Sample.Controllers
 
         private void ToLogin(User user)
         {
-            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, user.Nick, DateTime.Now, DateTime.Now.AddMinutes(30), false, user.Id.ToString(), "/");
+            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, user.Nick, DateTime.Now, DateTime.Now.AddMinutes(30), true, user.Id.ToString(), "/");
             HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
             HttpContext.Response.Cookies.Add(cookie);
-
         }
 
         [HttpGet]
@@ -67,8 +73,7 @@ namespace Aspnet.Web.Sample.Controllers
         {
             if (ModelState.IsValid)
             {
-                IUserService userService = new UserService();
-                if (userService.CheckUserName(model.UserName))
+                if (_userService.CheckUserName(model.UserName))
                 {
                     ModelState.AddModelError(nameof(model.UserName), "用户名已存在！");
                 }
@@ -80,7 +85,7 @@ namespace Aspnet.Web.Sample.Controllers
                     user.Password = model.Password.MD5();
                     user.Admin = false;
                     user.CreateTime = DateTime.Now;
-                    user.Id = userService.AddUser(user);
+                    user.Id = _userService.AddUser(user);
                     ToLogin(user);
                     return RedirectToAction("Index", "Home");
                 }
