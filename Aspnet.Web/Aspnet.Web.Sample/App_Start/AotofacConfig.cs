@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using Aspnet.Web.BLL.Abstractions;
 using Aspnet.Web.BLL.Services;
 using Aspnet.Web.Common;
+using Aspnet.Web.DAL.Abstractions;
+using Aspnet.Web.DAL.Dapper;
 using Autofac;
 using Autofac.Integration.Mvc;
 
@@ -24,7 +26,8 @@ namespace Aspnet.Web.Sample
             string connectionString = ConfigurationManager.ConnectionStrings["MySQL"].ConnectionString;
             builder.Register(r => ConnectionManager.GetConnection(connectionString))
                 .As<IDbConnection>().InstancePerRequest();
-
+            
+            builder.RegisterType<UserRepository>().As<IUserRepository>();
             builder.RegisterType<UserService>().As<IUserService>();
 
             builder.RegisterControllers(Assembly.GetAssembly(typeof(AotofacConfig))).PropertiesAutowired();

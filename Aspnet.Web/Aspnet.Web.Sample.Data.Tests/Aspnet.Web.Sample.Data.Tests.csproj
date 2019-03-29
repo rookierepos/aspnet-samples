@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C641C0A6-B60C-467E-98ED-59E82D0B36A3}</ProjectGuid>
+    <ProjectGuid>{E75A9DAE-2305-40AB-8C3F-D59FCDC0B31C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Aspnet.Web.Sample.Tests</RootNamespace>
-    <AssemblyName>Aspnet.Web.Sample.Tests</AssemblyName>
+    <RootNamespace>Aspnet.Web.Sample.Data.Tests</RootNamespace>
+    <AssemblyName>Aspnet.Web.Sample.Data.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -49,6 +49,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

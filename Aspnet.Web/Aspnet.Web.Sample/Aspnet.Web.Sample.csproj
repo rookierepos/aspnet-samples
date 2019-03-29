@@ -187,6 +187,10 @@
       <Project>{8861058c-35c2-4239-997c-aca70d3bb5cc}</Project>
       <Name>Aspnet.Web.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Aspnet.Web.DAL\Aspnet.Web.DAL.csproj">
+      <Project>{B3A1D390-386A-4076-A2F0-7BC4260CFDDD}</Project>
+      <Name>Aspnet.Web.DAL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Aspnet.Web.Model\Aspnet.Web.Model.csproj">
       <Project>{ca05be05-80ac-467b-8fd2-02785a026127}</Project>
       <Name>Aspnet.Web.Model</Name>

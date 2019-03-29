@@ -59,6 +59,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspnet.Api.Sample", "Aspnet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspnet.Api.Sample.Tests", "Aspnet.Api\Aspnet.Api.Sample.Tests\Aspnet.Api.Sample.Tests.csproj", "{A5F0DD02-5A20-4C9D-B33C-447176406EB7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspnet.Web.Sample.Data.Tests", "Aspnet.Web\Aspnet.Web.Sample.Data.Tests\Aspnet.Web.Sample.Data.Tests.csproj", "{E75A9DAE-2305-40AB-8C3F-D59FCDC0B31C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -133,6 +135,10 @@ Global
 		{A5F0DD02-5A20-4C9D-B33C-447176406EB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5F0DD02-5A20-4C9D-B33C-447176406EB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5F0DD02-5A20-4C9D-B33C-447176406EB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E75A9DAE-2305-40AB-8C3F-D59FCDC0B31C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E75A9DAE-2305-40AB-8C3F-D59FCDC0B31C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E75A9DAE-2305-40AB-8C3F-D59FCDC0B31C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E75A9DAE-2305-40AB-8C3F-D59FCDC0B31C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -164,6 +170,7 @@ Global
 		{C641C0A6-B60C-467E-98ED-59E82D0B36A3} = {F3281C97-9E06-4A48-90A3-79317517F832}
 		{7D41DE63-4AFA-4C9B-9E8A-D16D486EC1B4} = {075A9CFC-40D5-43DA-91DE-8848E5DD3C1F}
 		{A5F0DD02-5A20-4C9D-B33C-447176406EB7} = {85780C22-A777-4A15-8420-12DF93D8251C}
+		{E75A9DAE-2305-40AB-8C3F-D59FCDC0B31C} = {F3281C97-9E06-4A48-90A3-79317517F832}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {086CFB3E-0090-46FC-AA46-04D69791A118}

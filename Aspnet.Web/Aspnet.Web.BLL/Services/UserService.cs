@@ -16,9 +16,9 @@ namespace Aspnet.Web.BLL.Services
     {
         private readonly IUserRepository _userRepository;
 
-        public UserService(IDbConnection connection) : base(connection)
+        public UserService(IDbConnection connection, IUserRepository userRepository) : base(connection)
         {
-            _userRepository = new UserRepository(_connection);
+            _userRepository = userRepository;
         }
 
         public int AddUser(User user)
