@@ -12,7 +12,6 @@ namespace Aspnet.Web.Sample
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            //AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
             AntiForgeryConfig.SuppressIdentityHeuristicChecks = true;
             filters.Add(new IdentityFilter());
 
@@ -38,9 +37,9 @@ namespace Aspnet.Web.Sample
             }
         }
 
-        public override void OnResultExecuted(ResultExecutedContext filterContext)
-        {
-            ConnectionManager.ConnectionDispose();
-        }
+        //public override void OnResultExecuted(ResultExecutedContext filterContext)
+        //{
+        //    ConnectionManager.ConnectionDispose();
+        //}
     }
 }

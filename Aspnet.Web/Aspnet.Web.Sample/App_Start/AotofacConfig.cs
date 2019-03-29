@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Reflection;
@@ -10,7 +11,6 @@ using Aspnet.Web.BLL.Services;
 using Aspnet.Web.Common;
 using Autofac;
 using Autofac.Integration.Mvc;
-using Microsoft.Ajax.Utilities;
 
 namespace Aspnet.Web.Sample
 {
@@ -19,7 +19,12 @@ namespace Aspnet.Web.Sample
         public static void AutofacInit()
         {
             var builder = new ContainerBuilder();
-            builder.Register(r => ConnectionManager.GetConnection()).As<IDbConnection>();//.InstancePerRequest();
+            //builder.Register(r => ConnectionManager.GetConnection()).As<IDbConnection>();//.InstancePerRequest();
+
+            string connectionString = ConfigurationManager.ConnectionStrings["MySQL"].ConnectionString;
+            builder.Register(r => ConnectionManager.GetConnection(connectionString))
+                .As<IDbConnection>().InstancePerRequest();
+
             builder.RegisterType<UserService>().As<IUserService>();
 
             builder.RegisterControllers(Assembly.GetAssembly(typeof(AotofacConfig))).PropertiesAutowired();

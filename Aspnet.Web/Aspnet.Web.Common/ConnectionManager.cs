@@ -34,6 +34,11 @@ namespace Aspnet.Web.Common
             return connection;
         }
 
+        public static IDbConnection GetConnection(string connectionString)
+        {
+            return new MySqlConnection(connectionString);
+        }
+
         public static void ConnectionDispose()
         {
             if (HttpContext.Current.Cache[connectionKey] is IDbConnection connection)
