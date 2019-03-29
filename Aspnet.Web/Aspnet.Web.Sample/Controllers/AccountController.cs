@@ -66,7 +66,7 @@ namespace Aspnet.Web.Sample.Controllers
         {
             FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, user.Nick, DateTime.Now, DateTime.Now.AddMinutes(30), true, user.Id.ToString(), "/");
             HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
-            HttpContext.Response.Cookies.Add(cookie);
+            HttpContext?.Response.Cookies.Add(cookie);
         }
 
         [HttpGet]
