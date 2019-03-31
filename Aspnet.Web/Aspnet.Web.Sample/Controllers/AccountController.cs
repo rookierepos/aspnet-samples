@@ -25,6 +25,7 @@ namespace Aspnet.Web.Sample.Controllers
             _userService = userService;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult> List(int pageIndex = 1)
         {
@@ -66,7 +67,7 @@ namespace Aspnet.Web.Sample.Controllers
         {
             FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, user.Nick, DateTime.Now, DateTime.Now.AddMinutes(30), true, user.Id.ToString(), "/");
             HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
-            HttpContext?.Response.Cookies.Add(cookie);
+            Response?.Cookies.Add(cookie);
         }
 
         [HttpGet]
@@ -98,6 +99,22 @@ namespace Aspnet.Web.Sample.Controllers
                 }
             }
             return View(model);
+        }
+
+        public ActionResult LogOut()
+        {
+            ToLogout();
+            return RedirectToAction("Index", "Home");
+        }
+
+        private void ToLogout()
+        {
+            var cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (cookie != null)
+            {
+                cookie.Expires = DateTime.Now.AddDays(-1);
+                Response?.Cookies.Add(cookie);
+            }
         }
     }
 }

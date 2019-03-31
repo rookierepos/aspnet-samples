@@ -27,10 +27,7 @@
                         @Html.ActionLink("用户列表", "List", controllerName: "Account")
                     </li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li>@Html.ActionLink("登录", "Login", controllerName: "Account")</li>
-                    <li>@Html.ActionLink("注册", "Register", controllerName: "Account")</li>
-                </ul>
+                @Html.Partial("_LoginPartial")
             </div>
         </div>
     </div>
