@@ -33,14 +33,15 @@ namespace Aspnet.Web.Sample.Controllers
         }
 
         [HttpGet]
-        public ActionResult Login()
+        public ActionResult Login(string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginModel model)
+        public ActionResult Login(LoginModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -57,6 +58,10 @@ namespace Aspnet.Web.Sample.Controllers
                 {
                     ToLogin(user);
                     _userService.UpdateLastLoginTime(user.Id);
+                    if (!returnUrl.IsNullOrEmpty() && Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
                     return RedirectToAction("Index", "Home");
                 }
             }

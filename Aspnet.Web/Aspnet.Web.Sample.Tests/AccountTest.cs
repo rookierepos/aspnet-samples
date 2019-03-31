@@ -21,7 +21,7 @@ namespace Aspnet.Web.Sample.Tests
             // Arrange
             AccountController controller = new AccountController(mock.Object);
             // Act
-            ViewResult result = controller.Login() as ViewResult;
+            ViewResult result = controller.Login("") as ViewResult;
             // Assert
             Assert.AreEqual(result.ViewName, "");
             Assert.AreEqual(result.Model, null);
@@ -57,7 +57,7 @@ namespace Aspnet.Web.Sample.Tests
                 UserName = "test_user",
                 Password = "test_pwd1"
             };
-            ViewResult result1 = controller1.Login(testUser1) as ViewResult;
+            ViewResult result1 = controller1.Login(testUser1, "") as ViewResult;
             // Assert
             Assert.IsNotNull(result1);
             Assert.AreEqual(result1.ViewName, "");
@@ -72,7 +72,7 @@ namespace Aspnet.Web.Sample.Tests
                 UserName = "test_user",
                 Password = "test_pwd"
             };
-            RedirectToRouteResult result2 = controller2.Login(testUser2) as RedirectToRouteResult;
+            RedirectToRouteResult result2 = controller2.Login(testUser2, "") as RedirectToRouteResult;
             // Assert
             Assert.IsNotNull(result2);
         }

@@ -36,13 +36,13 @@ namespace Aspnet.Web.Common
         private static readonly ICryptoTransform _decryptor;
         private static readonly int BufferSize = 1024;
         private static readonly byte[] _iv = { 0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF };
-        private static readonly string _key = "samples";
-        private static readonly string _algorithm = "TripleDES";
+        private static readonly byte[] _key = Encoding.UTF8.GetBytes(".samples");
+        private static readonly string _algorithm = "DES";
 
         static CryptoHelper()
         {
             SymmetricAlgorithm provider = SymmetricAlgorithm.Create(_algorithm);
-            provider.Key = Encoding.UTF8.GetBytes(_key);
+            provider.Key = _key;
             provider.IV = _iv;
 
             _encryptor = provider.CreateEncryptor();

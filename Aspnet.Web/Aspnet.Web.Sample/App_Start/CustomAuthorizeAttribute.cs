@@ -11,11 +11,11 @@ namespace Aspnet.Web.Sample
     public class CustomAuthorizeAttribute : AuthorizeAttribute
     {
         private string _permission;
-        private bool _enablePermission;
+        private bool _onlyLogin;
         public CustomAuthorizeAttribute(string permission = null)
         {
             _permission = permission;
-            _enablePermission = !string.IsNullOrEmpty(_permission);
+            _onlyLogin = string.IsNullOrEmpty(_permission);
         }
 
         public override void OnAuthorization(AuthorizationContext filterContext)
@@ -24,7 +24,7 @@ namespace Aspnet.Web.Sample
             if (user.Identity.IsAuthenticated)
             {
                 ClaimsPrincipal claimsPrincipal = (ClaimsPrincipal) user;
-                if (_enablePermission || claimsPrincipal.Claims.Any(claim =>
+                if (_onlyLogin || claimsPrincipal.Claims.Any(claim =>
                     claim.Type == CustomAuthorizeOption.AuthorizeType && claim.Value == _permission))
                 {
                     return;
