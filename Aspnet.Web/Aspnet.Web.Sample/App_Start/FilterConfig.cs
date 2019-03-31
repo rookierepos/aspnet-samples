@@ -30,7 +30,7 @@ namespace Aspnet.Web.Sample
                 FormsIdentity formsIdentity = new FormsIdentity(ticket);
                 ClaimsIdentity claimsIdentity = new ClaimsIdentity(formsIdentity);
 
-                claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, ticket.UserData));
+                claimsIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, ticket.UserData.Decrypt()));
 
                 ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
                 filterContext.HttpContext.User = claimsPrincipal;

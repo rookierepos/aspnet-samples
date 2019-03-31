@@ -15,5 +15,10 @@ namespace Aspnet.Web.Common
         {
             return Convert.ToBase64String(_md5.ComputeHash(Encoding.UTF8.GetBytes(value)));
         }
+
+        public static bool IsNullOrEmpty(this string value)
+        {
+            return string.IsNullOrEmpty(value);
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace Aspnet.Web.Sample.Controllers
             _userService = userService;
         }
 
-        [Authorize]
+        [CustomAuthorize]
         [HttpGet]
         public async Task<ActionResult> List(int pageIndex = 1)
         {
@@ -65,7 +65,7 @@ namespace Aspnet.Web.Sample.Controllers
 
         private void ToLogin(User user)
         {
-            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, user.Nick, DateTime.Now, DateTime.Now.AddMinutes(30), true, user.Id.ToString(), "/");
+            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, user.Nick, DateTime.Now, DateTime.Now.AddMinutes(30), true, user.Id.ToString().Encrypt(), "/");
             HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
             Response?.Cookies.Add(cookie);
         }
