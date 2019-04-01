@@ -8,9 +8,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Aspnet.Web.Sample.Models;
 using Aspnet.Web.Model;
-using Aspnet.Web.BLL;
 using Aspnet.Web.BLL.Abstractions;
-using Aspnet.Web.BLL.Services;
 using Aspnet.Web.Common;
 using Microsoft.AspNet.Identity;
 
@@ -18,18 +16,18 @@ namespace Aspnet.Web.Sample.Controllers
 {
     public class AccountController : Controller
     {
-        private IUserService _userService;
+        private IAccountService _accountService;
 
-        public AccountController(IUserService userService)
+        public AccountController(IAccountService accountService)
         {
-            _userService = userService;
+            _accountService = accountService;
         }
 
         [CustomAuthorize]
         [HttpGet]
-        public async Task<ActionResult> List(int pageIndex = 1)
+        public async Task<ActionResult> List(int pageIndex = 1, int pageSize = 10)
         {
-            return View(await _userService.GetUserListAsync(10, pageIndex));
+            return View(await _accountService.AccountListAsync(pageIndex, pageSize));
         }
 
         [HttpGet]
@@ -41,23 +39,29 @@ namespace Aspnet.Web.Sample.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
-                var user = _userService.GetUser(model.UserName);
+                var (user, key, message) = await _accountService.LoginAsync(model.UserName, model.Password);
                 if (user == null)
                 {
-                    ModelState.AddModelError(nameof(model.UserName), "用户名错误！");
-                }
-                else if (model.Password.MD5() != user.Password)
-                {
-                    ModelState.AddModelError(nameof(model.Password), "密码错误！");
+                    if (key == "userName")
+                    {
+                        ModelState.AddModelError(nameof(model.UserName), "用户名错误！");
+                    }
+                    else if (key == "password")
+                    {
+                        ModelState.AddModelError(nameof(model.Password), "密码错误！");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", message);
+                    }
                 }
                 else
                 {
                     ToLogin(user);
-                    _userService.UpdateLastLoginTime(user.Id);
                     if (!returnUrl.IsNullOrEmpty() && Url.IsLocalUrl(returnUrl))
                     {
                         return Redirect(returnUrl);
@@ -82,23 +86,25 @@ namespace Aspnet.Web.Sample.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(RegistryModel model)
+        public async Task<ActionResult> Register(RegistryModel model)
         {
             if (ModelState.IsValid)
             {
-                if (_userService.CheckUserName(model.UserName))
+                User user = new User();
+                user.Name = model.UserName;
+                user.Nick = model.NickName;
+                user.Password = model.Password.MD5();
+                user.Admin = false;
+                user.CreateTime = DateTime.Now;
+
+                var (id, message) = await _accountService.RegisterAsync(user);
+                if (id == 0)
                 {
-                    ModelState.AddModelError(nameof(model.UserName), "用户名已存在！");
+                    ModelState.AddModelError("", message);
                 }
                 else
                 {
-                    User user = new User();
-                    user.Name = model.UserName;
-                    user.Nick = model.NickName;
-                    user.Password = model.Password.MD5();
-                    user.Admin = false;
-                    user.CreateTime = DateTime.Now;
-                    user.Id = _userService.AddUser(user);
+                    user.Id = id;
                     ToLogin(user);
                     return RedirectToAction("Index", "Home");
                 }

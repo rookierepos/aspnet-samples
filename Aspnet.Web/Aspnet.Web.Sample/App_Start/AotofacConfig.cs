@@ -28,7 +28,7 @@ namespace Aspnet.Web.Sample
                 .As<IDbConnection>().InstancePerRequest();
             
             builder.RegisterType<UserRepository>().As<IUserRepository>();
-            builder.RegisterType<UserService>().As<IUserService>();
+            builder.RegisterType<AccountService>().As<IAccountService>();
 
             builder.RegisterControllers(Assembly.GetAssembly(typeof(AotofacConfig))).PropertiesAutowired();
             builder.RegisterFilterProvider();

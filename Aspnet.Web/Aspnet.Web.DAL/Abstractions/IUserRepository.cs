@@ -20,7 +20,7 @@ namespace Aspnet.Web.DAL.Abstractions
         Task < (bool result, string message) > ChangePasswordAsync(int id, string oldPassword, string newPassword, IDbTransaction transaction);
         bool UpdateLastLoginTime(int id, IDbTransaction transaction);
         Task<bool> UpdateLastLoginTimeAsync(int id, IDbTransaction transaction);
-        IEnumerable<User> GetUserList(int pageSize, int pageIndex);
-        Task<IEnumerable<User>> GetUserListAsync(int pageSize, int pageIndex);
+        IEnumerable<User> GetUserList(int pageIndex, int pageSize);
+        Task<IEnumerable<User>> GetUserListAsync(int pageIndex, int pageSize);
     }
 }

@@ -136,14 +136,14 @@ namespace Aspnet.Web.DAL.Dapper
                        new { Name = name }) > 0;
         }
 
-        public IEnumerable<User> GetUserList(int pageSize, int pageIndex)
+        public IEnumerable<User> GetUserList(int pageIndex, int pageSize)
         {
             return _connection.Query<User>($@"
                 SELECT Id, Name, Nick, Admin, CreateTime, LastLoginTime, LockedDate, Status 
                 FROM {_userTableName} WHERE 1=1 LIMIT {(pageSize * (pageIndex - 1))}, {pageSize}");
         }
 
-        public Task<IEnumerable<User>> GetUserListAsync(int pageSize, int pageIndex)
+        public Task<IEnumerable<User>> GetUserListAsync(int pageIndex, int pageSize)
         {
             return _connection.QueryAsync<User>($@"
                 SELECT Id, Name, Nick, Admin, CreateTime, LastLoginTime, LockedDate, Status 
