@@ -44,7 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstractions\IRoleRepository.cs" />
     <Compile Include="Dapper\BaseRepository.cs" />
+    <Compile Include="Dapper\RoleRepository.cs" />
     <Compile Include="Dapper\UserRepository.cs" />
     <Compile Include="Abstractions\IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

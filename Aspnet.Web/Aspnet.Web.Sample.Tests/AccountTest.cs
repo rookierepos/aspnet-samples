@@ -42,11 +42,11 @@ namespace Aspnet.Web.Sample.Tests
                 Name = "test_user",
                 Nick = "test_nick",
                 Admin = false,
-                CreateTime = DateTime.Today,
+                CreatedTime = DateTime.Today,
                 LastLoginTime = DateTime.Today,
                 LockedDate = null,
                 Password = "test_pwd".MD5(),
-                Status = UserStatus.Normal
+                Status = Status.Normal
             };
             mock.Setup((accountService) => accountService.LoginAsync("test_user", "test_pwd1"))
                 .Returns(Task.FromResult(((User)null, "userName", "用户名错误！")));
@@ -96,11 +96,11 @@ namespace Aspnet.Web.Sample.Tests
                     Name = "test_user",
                     Nick = "test_nick",
                     Admin = false,
-                    CreateTime = DateTime.Today,
+                    CreatedTime = DateTime.Today,
                     LastLoginTime = DateTime.Today,
                     LockedDate = null,
                     Password = "test_pwd".MD5(),
-                    Status = UserStatus.Normal
+                    Status = Status.Normal
                 }
             };
             mock.Setup((accountService) => accountService.AccountListAsync(1, 10))

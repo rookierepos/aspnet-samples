@@ -95,7 +95,7 @@ namespace Aspnet.Web.Sample.Controllers
                 user.Nick = model.NickName;
                 user.Password = model.Password.MD5();
                 user.Admin = false;
-                user.CreateTime = DateTime.Now;
+                user.CreatedTime = DateTime.Now;
 
                 var (id, message) = await _accountService.RegisterAsync(user);
                 if (id == 0)

@@ -11,13 +11,15 @@ namespace Aspnet.Web.Model
         public string Password { get; set; }
         public string Nick { get; set; }
         public bool Admin { get; set; }
-        public DateTime CreateTime { get; set; }
+        public DateTime CreatedTime { get; set; }
+        public DateTime ChangedTime { get; set; }
         public DateTime LastLoginTime { get; set; }
         public DateTime? LockedDate { get; set; }
-        public UserStatus Status { get; set; } = UserStatus.Normal;
+        public Status Status { get; set; } = Status.Normal;
+        public int RoleId { get; set; } = 0;
     }
 
-    public enum UserStatus : short
+    public enum Status : short
     {
         Normal = 0b0001,
         Locked = 0b0010,
