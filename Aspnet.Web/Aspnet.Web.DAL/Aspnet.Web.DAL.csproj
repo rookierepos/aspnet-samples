@@ -50,6 +50,7 @@
     <Compile Include="Dapper\UserRepository.cs" />
     <Compile Include="Abstractions\IUserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RepositoryException.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Aspnet.Web.Common\Aspnet.Web.Common.csproj">

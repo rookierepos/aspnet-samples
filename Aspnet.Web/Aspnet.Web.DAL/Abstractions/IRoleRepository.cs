@@ -10,8 +10,8 @@ namespace Aspnet.Web.DAL.Abstractions
 {
     public interface IRoleRepository
     {
-        bool HasRoleName(string name, IDbTransaction transaction);
-        Task<bool> HasRoleNameAsync(string name, IDbTransaction transaction);
+        bool CheckRoleName(string name, IDbTransaction transaction);
+        Task<bool> CheckRoleNameAsync(string name, IDbTransaction transaction);
 
         int AddRole(Role role, IDbTransaction transaction);
         Task<int> AddRoleAsync(Role role, IDbTransaction transaction);
@@ -28,8 +28,8 @@ namespace Aspnet.Web.DAL.Abstractions
         bool UpdateRolePermission(int roleId, int[] newPermission, IDbTransaction transaction);
         Task<bool> UpdateRolePermissionAsync(int roleId, int[] newPermission, IDbTransaction transaction);
 
-        bool HasPermissionName(string name, IDbTransaction transaction);
-        Task<bool> HasPermissionNameAsync(string name, IDbTransaction transaction);
+        bool CheckPermissionName(string name, IDbTransaction transaction);
+        Task<bool> CheckPermissionNameAsync(string name, IDbTransaction transaction);
 
         int AddPermission(Permission permission, IDbTransaction transaction);
         Task<int> AddPermissionAsync(Permission permission, IDbTransaction transaction);

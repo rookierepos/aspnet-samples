@@ -61,7 +61,7 @@ namespace Aspnet.Web.Sample.Controllers
                 }
                 else
                 {
-                    ToLogin(user);
+                    HttpContext.SignIn(user.Nick, DateTime.Now.AddMinutes(30), true, user.Id.ToString().Encrypt());
                     if (!returnUrl.IsNullOrEmpty() && Url.IsLocalUrl(returnUrl))
                     {
                         return Redirect(returnUrl);
@@ -70,13 +70,6 @@ namespace Aspnet.Web.Sample.Controllers
                 }
             }
             return View(model);
-        }
-
-        private void ToLogin(User user)
-        {
-            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, user.Nick, DateTime.Now, DateTime.Now.AddMinutes(30), true, user.Id.ToString().Encrypt(), "/");
-            HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
-            Response?.Cookies.Add(cookie);
         }
 
         [HttpGet]
@@ -105,7 +98,7 @@ namespace Aspnet.Web.Sample.Controllers
                 else
                 {
                     user.Id = id;
-                    ToLogin(user);
+                    HttpContext.SignIn(user.Nick, DateTime.Now.AddMinutes(30), true, user.Id.ToString().Encrypt());
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -114,18 +107,8 @@ namespace Aspnet.Web.Sample.Controllers
 
         public ActionResult LogOut()
         {
-            ToLogout();
+            HttpContext.SignOut();
             return RedirectToAction("Index", "Home");
-        }
-
-        private void ToLogout()
-        {
-            var cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-            if (cookie != null)
-            {
-                cookie.Expires = DateTime.Now.AddDays(-1);
-                Response?.Cookies.Add(cookie);
-            }
         }
     }
 }

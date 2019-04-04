@@ -55,5 +55,10 @@ namespace Aspnet.Web.BLL.Services
                 return (user.Id, null);
             }
         }
+
+        public Task<(Role role, Permission[] permissions)> UserRoleInfo(int userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.Security;
 
 namespace Aspnet.Web.Common
 {
@@ -19,6 +21,35 @@ namespace Aspnet.Web.Common
         public static bool IsNullOrEmpty(this string value)
         {
             return string.IsNullOrEmpty(value);
+        }
+
+        public static void SignIn(this HttpContextBase context, string name, DateTime expiration, bool isPersistent,
+            string userData, string cookiePath = "/")
+        {
+            context?.Response.Cookies.Add(new HttpCookie(
+                    FormsAuthentication.FormsCookieName,
+                    FormsAuthentication.Encrypt(
+                        new FormsAuthenticationTicket(
+                            1,
+                            name,
+                            DateTime.Now,
+                            expiration,
+                            true,
+                            userData,
+                            cookiePath)
+                    )
+                )
+            );
+        }
+
+        public static void SignOut(this HttpContextBase context)
+        {
+            var cookie = context?.Request.Cookies[FormsAuthentication.FormsCookieName];
+            if (cookie != null)
+            {
+                cookie.Expires = DateTime.Now.AddDays(-1);
+                context.Response.Cookies.Add(cookie);
+            }
         }
     }
 }
