@@ -45,7 +45,7 @@ namespace Aspnet.Web.BLL.Services
 
         public async Task<(int userId, string message)> RegisterAsync(User user)
         {
-            if (await _userRepository.CheckUserNameAsync(user.Name))
+            if (await _userRepository.CheckUserNameAsync(user.Name, null))
             {
                 return (0, "用户名已存在！");
             }

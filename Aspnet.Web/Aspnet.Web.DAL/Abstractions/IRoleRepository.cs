@@ -22,8 +22,8 @@ namespace Aspnet.Web.DAL.Abstractions
         bool RemoveRole(int roleId, IDbTransaction transaction);
         Task<bool> RemoveRoleAsync(int roleId, IDbTransaction transaction);
 
-        bool UpdateRoleName(string name, IDbTransaction transaction);
-        Task<bool> UpdateRoleNameAsync(string name, IDbTransaction transaction);
+        bool UpdateRoleName(int roleId, string name, IDbTransaction transaction);
+        Task<bool> UpdateRoleNameAsync(int roleId, string name, IDbTransaction transaction);
 
         bool UpdateRolePermission(int roleId, int[] newPermission, IDbTransaction transaction);
         Task<bool> UpdateRolePermissionAsync(int roleId, int[] newPermission, IDbTransaction transaction);
@@ -34,8 +34,8 @@ namespace Aspnet.Web.DAL.Abstractions
         int AddPermission(Permission permission, IDbTransaction transaction);
         Task<int> AddPermissionAsync(Permission permission, IDbTransaction transaction);
 
-        bool UpdatePermissionName(string name, IDbTransaction transaction);
-        Task<bool> UpdatePermissionNameAsync(string name, IDbTransaction transaction);
+        bool UpdatePermissionName(int permissionId, string name, IDbTransaction transaction);
+        Task<bool> UpdatePermissionNameAsync(int permissionId, string name, IDbTransaction transaction);
 
         bool RemovePermission(int permissionId, IDbTransaction transaction);
         Task<bool> RemovePermissionAsync(int permissionId, IDbTransaction transaction);
