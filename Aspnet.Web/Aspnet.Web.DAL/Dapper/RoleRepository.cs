@@ -484,5 +484,81 @@ namespace Aspnet.Web.DAL.Dapper
                 throw new RepositoryException("修改用户角色", ex);
             }
         }
+
+        public Role GetUserRole(int userId, IDbTransaction transaction = null)
+        {
+            try
+            {
+                var roleId = _connection.Query<int>($"SELECT RoleId FROM {_userTableName} WHERE Id=@Id;",
+                    new {Id = userId}, transaction).FirstOrDefault();
+                if (roleId > 0)
+                {
+                    return _connection.Query<Role>($"SELECT * FROM {_roleTableName} WHERE Id=@Id AND Status!=@Status;",
+                        new {Id = roleId, Status = Status.Deleted}, transaction).FirstOrDefault();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new RepositoryException("获取用户角色", ex);
+            }
+        }
+
+        public async Task<Role> GetUserRoleAsync(int userId, IDbTransaction transaction = null)
+        {
+            try
+            {
+                var roleId = (await _connection.QueryAsync<int>($"SELECT RoleId FROM {_userTableName} WHERE Id=@Id;",
+                    new {Id = userId}, transaction)).FirstOrDefault();
+                if (roleId > 0)
+                {
+                    return (await _connection.QueryAsync<Role>($"SELECT * FROM {_roleTableName} WHERE Id=@Id AND Status!=@Status;",
+                        new {Id = roleId, Status = Status.Deleted}, transaction)).FirstOrDefault();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new RepositoryException("获取用户角色", ex);
+            }
+        }
+
+        public Permission[] GetRolePermission(int roleId, IDbTransaction transaction = null)
+        {
+            try
+            {
+                return _connection.Query<Permission>(
+                    $@"SELECT p.* FROM {_permissionTableName} p 
+                        INNER JOIN {_rolePermissionTableName} rp ON p.Id = rp.PermissionId
+                        WHERE rp.RoleId=@RoleId;",
+                    new {RoleId = roleId}, transaction).ToArray();
+            }
+            catch (Exception ex)
+            {
+                throw new RepositoryException("获取角色权限", ex);
+            }
+        }
+
+        public async Task<Permission[]> GetRolePermissionAsync(int roleId, IDbTransaction transaction = null)
+        {
+            try
+            {
+                return (await _connection.QueryAsync<Permission>(
+                    $@"SELECT p.* FROM {_permissionTableName} p 
+                        INNER JOIN {_rolePermissionTableName} rp ON p.Id = rp.PermissionId
+                        WHERE rp.RoleId=@RoleId;",
+                    new {RoleId = roleId}, transaction)).ToArray();
+            }
+            catch (Exception ex)
+            {
+                throw new RepositoryException("获取角色权限", ex);
+            }
+        }
     }
 }

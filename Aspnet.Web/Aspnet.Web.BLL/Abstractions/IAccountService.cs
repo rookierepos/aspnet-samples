@@ -12,6 +12,6 @@ namespace Aspnet.Web.BLL.Abstractions
         Task<(int userId, string message)> RegisterAsync(User user);
         Task<(User user, string key, string message)> LoginAsync(string userName, string password);
         Task<IEnumerable<User>> AccountListAsync(int pageIndex, int pageSize);
-        Task<(Role role, Permission[] permissions)> UserRoleInfo(int userId);
+        Task<(Role role, Permission[] permissions)> UserRolePermission(int userId);
     }
 }

@@ -6,11 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
-using Aspnet.Web.BLL.Abstractions;
-using Aspnet.Web.BLL.Services;
 using Aspnet.Web.Common;
-using Aspnet.Web.DAL.Abstractions;
-using Aspnet.Web.DAL.Dapper;
 using Autofac;
 using Autofac.Integration.Mvc;
 
@@ -26,9 +22,27 @@ namespace Aspnet.Web.Sample
             string connectionString = ConfigurationManager.ConnectionStrings["MySQL"].ConnectionString;
             builder.Register(r => ConnectionManager.GetConnection(connectionString))
                 .As<IDbConnection>().InstancePerRequest();
+
+            var baseRepositoryType = typeof(DAL.Dapper.BaseRepository);
+            var repositories = Assembly.GetAssembly(baseRepositoryType)
+                .ExportedTypes.Where(type => type.BaseType == baseRepositoryType);
+            foreach (Type repository in repositories)
+            {
+                builder.RegisterType(repository)
+                    .As(repository.GetInterface($"I{repository.Name}"));
+            }
+            //builder.RegisterType<UserRepository>().As<IUserRepository>();
+            //builder.RegisterType<RoleRepository>().As<IRoleRepository>();
             
-            builder.RegisterType<UserRepository>().As<IUserRepository>();
-            builder.RegisterType<AccountService>().As<IAccountService>();
+            var baseServiceType = typeof(BLL.Services.BaseService);
+            var services = Assembly.GetAssembly(baseServiceType)
+                .ExportedTypes.Where(type => type.BaseType == baseServiceType);
+            foreach (var service in services)
+            {
+                builder.RegisterType(service)
+                    .As(service.GetInterface($"I{service.Name}"));
+            }
+            //builder.RegisterType<AccountService>().As<IAccountService>();
 
             builder.RegisterControllers(Assembly.GetAssembly(typeof(AotofacConfig))).PropertiesAutowired();
             builder.RegisterFilterProvider();

@@ -128,13 +128,13 @@ namespace Aspnet.Web.DAL.Dapper
                 return (false, "修改成功");
         }
 
-        public User GetUser(int id)
+        public User GetUser(int id, IDbTransaction transaction = null)
         {
             try
             {
                 return _connection.QueryFirstOrDefault<User>(
                     $"SELECT * FROM {_userTableName} WHERE Id=@Id AND Status!=@Status;",
-                    new {Id = id, Status = Status.Deleted});
+                    new {Id = id, Status = Status.Deleted}, transaction);
             }
             catch (Exception ex)
             {
@@ -142,13 +142,13 @@ namespace Aspnet.Web.DAL.Dapper
             }
         }
 
-        public Task<User> GetUserAsync(int id)
+        public Task<User> GetUserAsync(int id, IDbTransaction transaction = null)
         {
             try
             {
                 return _connection.QueryFirstOrDefaultAsync<User>(
                     $"SELECT * FROM {_userTableName} WHERE Id=@Id AND Status!=@Status;",
-                    new {Id = id, Status = Status.Deleted});
+                    new {Id = id, Status = Status.Deleted}, transaction);
             }
             catch (Exception ex)
             {
@@ -156,13 +156,13 @@ namespace Aspnet.Web.DAL.Dapper
             }
         }
 
-        public User GetUser(string name)
+        public User GetUser(string name, IDbTransaction transaction = null)
         {
             try
             {
                 return _connection.QueryFirstOrDefault<User>(
                     $"SELECT * FROM {_userTableName} WHERE Name=@Name AND Status!=@Status LIMIT 1;",
-                    new {Name = name, Status = Status.Deleted});
+                    new {Name = name, Status = Status.Deleted}, transaction);
             }
             catch (Exception ex)
             {
@@ -170,13 +170,13 @@ namespace Aspnet.Web.DAL.Dapper
             }
         }
 
-        public Task<User> GetUserAsync(string name)
+        public Task<User> GetUserAsync(string name, IDbTransaction transaction = null)
         {
             try
             {
                 return _connection.QueryFirstOrDefaultAsync<User>(
                     $"SELECT * FROM {_userTableName} WHERE Name=@Name AND Status!=@Status LIMIT 1;",
-                    new {Name = name, Status = Status.Deleted});
+                    new {Name = name, Status = Status.Deleted}, transaction);
             }
             catch (Exception ex)
             {
@@ -184,7 +184,7 @@ namespace Aspnet.Web.DAL.Dapper
             }
         }
 
-        public bool UpdateLastLoginTime(int id, IDbTransaction transaction)
+        public bool UpdateLastLoginTime(int id, IDbTransaction transaction = null)
         {
             try
             {
@@ -197,7 +197,7 @@ namespace Aspnet.Web.DAL.Dapper
             }
         }
 
-        public async Task<bool> UpdateLastLoginTimeAsync(int id, IDbTransaction transaction)
+        public async Task<bool> UpdateLastLoginTimeAsync(int id, IDbTransaction transaction = null)
         {
             try
             {
